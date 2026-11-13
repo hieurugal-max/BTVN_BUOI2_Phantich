@@ -1,0 +1,91 @@
+SO SÁNH TRADE-OFF CÁC GIẢI PHÁP RA LỆNH CHO CẤU TRÚC PROMPT TIÊU CHUẨN & ĐỊNH DẠNG
+1. Bước 1: Đề xuất 2 Prompt mẫu
+Bối cảnh: Cửa hàng cần sử dụng AI để kiểm tra đơn hàng, tính tổng tiền và xuất kết quả thành JSON và bảng Markdown.
+Giải pháp 1: Prompt đơn giản
+Bạn là nhân viên xử lý đơn hàng. Hãy kiểm tra thông tin đơn hàng, tính tổng tiền bằng số lượng nhân đơn giá và xuất kết quả dưới dạng JSON và bảng Markdown.
+
+Dữ liệu:
+- Mã đơn: DH001
+- Khách hàng: Nguyễn Văn An
+- Sản phẩm: Bàn phím cơ
+- Số lượng: 2
+- Đơn giá: 500000
+Nếu thiếu thông tin hoặc dữ liệu không hợp lệ, hãy thông báo để kiểm tra lại
+
+
+
+
+Giải pháp 2: Prompt chi tiết
+Bạn là nhân viên quản lý đơn hàng của cửa hàng.
+
+Nhiệm vụ:
+Kiểm tra thông tin đơn hàng, tính tổng tiền và tạo báo cáo.
+
+Dữ liệu:
+- Mã đơn: DH001
+- Khách hàng: Nguyễn Văn An
+- Số điện thoại: 0987654321
+- Sản phẩm: Bàn phím cơ
+- Số lượng: 2
+- Đơn giá: 500000
+- Địa chỉ: Quận 7, TP.HCM
+Quy tắc:
+1. Kiểm tra các trường thông tin bắt buộc
+2. Nếu thiếu dữ liệu, ghi rõ thông tin bị thiếu
+3. Nếu số lượng hoặc đơn giá nhỏ hơn hoặc bằng 0, đánh dấu không hợp lệ
+4. Nếu số điện thoại không đủ 10 chữ số, yêu cầu kiểm tra
+5. Tính tổng tiền = số lượng × đơn giá
+6. Không tự ý thêm hoặc sửa dữ liệu
+Ví dụ (Few-shot):
+- Số lượng 2, đơn giá 500000 → Hợp lệ, tổng tiền 1000000
+- Số lượng 0, đơn giá 500000 → Cần kiểm tra, số lượng không hợp lệ
+Định dạng đầu ra:
+1. Xuất JSON gồm mã đơn, khách hàng, sản phẩm, số lượng, đơn giá, tổng tiền, trạng thái và lý do
+2. Xuất bảng Markdown gồm mã đơn, khách hàng, sản phẩm, số lượng, tổng tiền và trạng thái
+Nếu dữ liệu không hợp lệ, tổng tiền trả về null và ghi rõ nguyên nhân
+
+
+
+
+2. Bước 2: Bảng so sánh Trade-off
+Tiêu chí	Giải pháp 1 (Đơn giản)	Giải pháp 2 (Chi tiết)
+Độ dễ hiểu	Cao	Trung bình
+Tốn token	Ít	Nhiều hơn
+Thời gian viết	Nhanh	Lâu hơn
+Độ chính xác	Khá	Cao
+Chặn lỗi biên	Trung bình	Tốt
+Few-shot	Không có	Có
+Định dạng đầu ra	Chưa quy định rõ	Quy định cụ thể
+Khả năng sử dụng thực tế	Phù hợp việc đơn giản	Phù hợp xử lý đơn hàng
+
+3. Bước 3: Lựa chọn giải pháp tối ưu
+Lựa chọn: Giải pháp 2 (Prompt chi tiết).
+
+Lý do: Mặc dù prompt dài hơn và tốn nhiều token hơn, nhưng có hướng dẫn cụ thể, ví dụ mẫu và quy tắc xử lý lỗi. Nhờ vậy, AI ít bỏ sót thông tin và kết quả trả về đúng định dạng hơn. Với công việc xử lý đơn hàng, mình thấy giải pháp 2 phù hợp hơn.
+4. Kết quả chạy thử
+Dữ liệu đầu vào:
+- Mã đơn: DH001
+- Khách hàng: Nguyễn Văn An
+- Số điện thoại: 0987654321
+- Sản phẩm: Bàn phím cơ
+- Số lượng: 2
+- Đơn giá: 500000
+- Địa chỉ: Quận 7, TP.HCM
+Kết quả JSON:
+{
+  "ma_don": "DH001",
+  "khach_hang": "Nguyễn Văn An",
+  "san_pham": "Bàn phím cơ",
+  "so_luong": 2,
+  "don_gia": 500000,
+  "tong_tien": 1000000,
+  "trang_thai": "Hợp lệ",
+  "ly_do": []
+}
+
+
+Kết quả bảng:
+Mã đơn	Khách hàng	Sản phẩm	Số lượng	Tổng tiền	Trạng thái
+DH001	Nguyễn Văn An	Bàn phím cơ	2	1.000.000đ	Hợp lệ
+
+Nhận xét: AI đã tính đúng tổng tiền là 1.000.000 đồng và trả về đầy đủ JSON, bảng Markdown theo yêu cầu.
